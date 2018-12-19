@@ -2,7 +2,9 @@
 @author: sebastianreitz
 """
 
-'''First MDP'''
+'''First MDP Project:
+Changes in Rating of a business based on historic probabilities and their respective transition probability matrix
+'''
 
 import numpy as np
 import pandas as pd
@@ -15,6 +17,7 @@ import pandas as pd
 import timeit
 
 
+#Rating related Objects
 class Rating(object):
     
     def __init__(self,rating, iteration, simulations):# name, :
@@ -43,6 +46,7 @@ class Rating(object):
                 mi = mproduct.dot(mproduct)
             return mi
 
+#States and Transition Probability Matrices
 states = ['AAA','AA','A','BBB','BB','B','CCC','D']
 
 tpm = Rating(1,0,1)
@@ -80,15 +84,16 @@ R = np.array([
         [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1], # R(s_0) -> s'
         [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1],  # R(s_1) -> s'
         [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1],  # R(s_2) -> s'
-        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1],
-        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1],
-        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1],
-        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1],
-        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1]# R(s_3) -> s'
+        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1], #...
+        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1], #...
+        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1], #...
+        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1], #...
+        [1, 0.1, 0.0, -0.1, -0.2, -0.3, -0.4, -1]# R(s_7)
     ])
 
 
 ''' Value Iteration'''
+############################
 start = timeit.default_timer()
 v = np.zeros(T.shape[0])
 v_old = v.copy()
@@ -116,7 +121,10 @@ print('\n')
 print(counter)
 
 
+
+
 ''' Policy Iteration'''
+############################
 start = timeit.default_timer()
 v = np.zeros(T.shape[0])
 v_old = v.copy()
@@ -158,9 +166,8 @@ print(counter)
 
 
 
-
-
 '''Reinforcement Learning'''
+############################
 start = timeit.default_timer()
 rounds = 50
 alpha = 0.5
@@ -279,7 +286,9 @@ stop = timeit.default_timer()
 print('Time: ', stop - start) 
 
 
+
 ''' Plot convergence'''
+############################
 axis = np.linspace(0,len(convergence),len(convergence))
 plt.figure()
 plt.title('Convergence per Rounds played')
@@ -287,13 +296,7 @@ plt.plot(axis,convergence)
 plt.xlabel('Rounds')
 plt.ylabel("Sum Q's")
     
-    
-    
-    
 
-    
-    
-    
     
 ''' Plotting the Markov Chain'''
 q_df = tm
@@ -341,7 +344,12 @@ plt.show()
 
 
 
-'''Second MDP'''
+
+
+
+'''Second MDP:
+FrozenLake OpenAI example
+'''
 
 
 
@@ -374,9 +382,6 @@ from gym import wrappers
 
 '''Value Iteration'''
 ####################
-
-
-
 def run_episode(env, policy, gamma , render = False):
     """ Evaluates policy by using it to run an episode and finding its
     total reward.
@@ -486,9 +491,6 @@ if __name__ == '__main__':
     
 '''Policy Iteration'''
 #####################
-
-
-
 def run_episode(env, policy, gamma, render = False):
     """ Runs an episode and return the total reward """
     obs = env.reset()
@@ -579,7 +581,10 @@ if __name__ == '__main__':
 
 
 
-'''Q-Learning'''
+'''Reiinforcement Learning:
+Q-Learning
+'''
+############################
 env = gym.make('FrozenLakeNotSlippery-v19')
 env = env.unwrapped
 env.seed(0)
